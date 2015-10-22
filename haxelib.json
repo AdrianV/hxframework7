@@ -1,0 +1,13 @@
+{
+  "name": "framework7",
+  "url" : "https://github.com/AdrianV/framework7/",
+  "license": "MIT",
+  "tags": ["javascript", "framework7"],
+  "description": "Haxe wrapper for the Framework7 library.",
+  "version": "0.0.1",
+  "releasenote": "Initial release.",
+  "contributors": ["Adrian"],
+  "dependencies": {
+  },
+  "classPath": "src"
+}
