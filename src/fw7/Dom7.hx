@@ -5,7 +5,25 @@ package fw7;
  * @author 
  */
 
- import js.jquery.Helper;
+class Dom7Iterator 
+{
+	var arr: Dom7;
+	var cur: Int;
+	public inline function new(dom: Dom7) {
+		this.arr = dom;
+		this.cur = 0;
+	}
+	
+	public inline function hasNext(): Bool return this.cur < this.arr.length;
+	
+	public inline function next(): js.html.Element return this.arr[this.cur++];
+}
+
+typedef Dom7Container = haxe.extern.EitherType<Dom7, haxe.extern.EitherType<String, js.html.HtmlElement>>;
+
+private class X {
+	static public function replaceHandler(t: Dom7, event: String = "click", f: js.html.Event->Void): Dom7 return t.off(event, f).on(event, f); 	
+}
 
 @:native("$$") 
 extern class Dom7 implements ArrayAccess<js.html.Element>
@@ -30,6 +48,12 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	
 	public inline function isChecked(): Bool { return prop('checked'); }
 	public inline function setChecked(val: Bool): Dom7 { return prop( "checked", val); }
+
+	public var length(default, never): Int;
+	
+	//public inline function array(): Array<js.html.Element> return cast this;
+	public inline function iterator(): Dom7Iterator return new Dom7Iterator(this);
+	
 
 	/**
 		Add class to elements
@@ -110,22 +134,24 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		Add event handler function to one or more events to the selected elements.
 		with delegatedTarget = Live/delegated event handler
 	**/
-	@:overload(function(eventName: String, delegatedTarget: String, handler: js.html.Event->Void): Dom7 {})
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function on(eventName: String, handler: js.html.Event->Void): Dom7;
 
 	/**
 		Add event handler function to one or more events to the selected elements that will be executed only once
 		with delegatedTarget = Live/delegated event handler that will be executed only once
 	**/
-	@:overload(function(eventName: String, delegatedTarget: String, handler: js.html.Event->Void): Dom7 {})
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function once(eventName: String, handler: js.html.Event->Void): Dom7;
 	
 	/**
 		Remove event handler
 		with delegatedTarget = Remove live/delegated event handler
 	**/
-	@:overload(function(eventName: String, delegatedTarget: String, handler: js.html.Event->Void): Dom7 {})
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function off(eventName: String, handler: js.html.Event->Void): Dom7;
+	
+	inline function replaceHandler(event: String = "click", f: js.html.Event->Void): Dom7 { return X.replaceHandler(this, event, f); }
 	
 	/**
 		Execute all handlers added to the matched elements for the specified event
@@ -159,10 +185,10 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	@:overload(function(propertiesObject: Dynamic): Dom7 {})
 	public function css(propName: String): Dynamic;
 	
-	@:overload(function(position: Float, ? duration: Float, callback: Void->Void): Dom7 {})
+	@:overload(function(position: Float, ? duration: Float, ? callback: Void->Void): Dom7 {})
 	public function scrollTop(): Float;
 	
-	@:overload(function(position: Float, ? duration: Float, callback: Void->Void): Dom7 {})
+	@:overload(function(position: Float, ? duration: Float, ? callback: Void->Void): Dom7 {})
 	public function scrollLeft(): Float;
 	
 	
@@ -178,19 +204,19 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	@:overload(function(value:String): Dom7 {})
 	public function text(): String;
 	
-	public function is(selector: haxe.extern.EitherType<String, Dom7>): Bool;
+	public function is(selector: Dom7Container): Bool;
 	
 	public function index(): Int;
 	
 	public function eq(index: Int): Dom7;
 	
-	public function append(element: haxe.extern.EitherType<String, js.html.Element>): Dom7;
+	public function append(element: Dom7Container): Dom7;
 	
-	public function prepend(element: haxe.extern.EitherType<String, js.html.Element>): Dom7;
+	public function prepend(element: Dom7Container): Dom7;
 	
-	public function insertBefore(target: haxe.extern.EitherType<String, haxe.extern.EitherType<js.html.Element, Dom7>>): Dom7;
+	public function insertBefore(target: Dom7Container): Dom7;
 	
-	public function insertAfter(target: haxe.extern.EitherType<String, haxe.extern.EitherType<js.html.Element, Dom7>>): Dom7;
+	public function insertAfter(target: Dom7Container): Dom7;
 	
 	public function next(? selector: String): Dom7;
 	public function nextAll(? selector: String): Dom7;
