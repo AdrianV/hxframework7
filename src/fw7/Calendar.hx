@@ -5,6 +5,7 @@ package fw7;
  * @author 
  */
 
+import fw7.Dom7; 
 import fw7.Framework7;
 import fw7.Column;
 

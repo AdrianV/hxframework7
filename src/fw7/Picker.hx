@@ -9,8 +9,8 @@ import fw7.Framework7;
 import fw7.Column;
 
 typedef PickerParams = {
-	? container: fw7.Framework7.Dom7Container,
-	? input : fw7.Framework7.Dom7Container,
+	? container: fw7.Dom7.Dom7Container,
+	? input : fw7.Dom7.Dom7Container,
 	? scrollToInput: Bool,
 	? inputReadOnly: Bool,
 	? convertToPopover: Bool,

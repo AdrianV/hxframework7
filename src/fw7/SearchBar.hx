@@ -16,10 +16,10 @@ typedef SearchBarParams = {
 	? removeDiacritics: Bool,
 	? hideDividers: Bool,
 	? hideGroups: Bool,
-	? onSearch: Dynamic->Void,
-	? onEnable: Dynamic->Void,
-	? onDisable: Dynamic->Void,
-	? onClear: Dynamic->Void,
+	? onSearch: SearchBar->Void,
+	? onEnable: SearchBar->Void,
+	? onDisable: SearchBar->Void,
+	? onClear: SearchBar->Void,
 }
 
 extern class SearchBar

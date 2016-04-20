@@ -6,7 +6,6 @@ package fw7;
  */
 import fw7.View;
 
-typedef Dom7Container = haxe.extern.EitherType<Dom7, haxe.extern.EitherType<String, js.html.HtmlElement>>;
 typedef PreprocessCallback = String->Void;
 typedef Fw7Params = {
 	? material: Bool,
@@ -197,6 +196,7 @@ extern class Framework7
 	public function sizeNavbars(viewContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	public function hideToolbar(toolbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	public function showToolbar(toolbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
+	public function showTab(tab: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	
 	@:overload(function(text: String, title: String, callbackOk: Void->Void): Modal {})
 	@:overload(function(text: String, callbackOk: Void->Void): Modal {})
@@ -256,19 +256,19 @@ extern class Framework7
 	public function openPanel(position: PanelPosition): Void;
 	public function closePanel(): Void;
 	
-	public function pullToRefreshDone(element: Dom7Container): Void;
-	public function pullToRefreshTrigger(element: Dom7Container): Void;
+	public function pullToRefreshDone(element: fw7.Dom7.Dom7Container): Void;
+	public function pullToRefreshTrigger(element: fw7.Dom7.Dom7Container): Void;
 	
-	public function swipeoutOpen(el: Dom7Container, direction: SwipeoutDirection, callback: Void->Void): Void;
-	public function swipeoutClose(el: Dom7Container, callback: Void->Void): Void;
-	public function swipeoutDelete(el: Dom7Container, callback: Void->Void): Void;
+	public function swipeoutOpen(el: fw7.Dom7.Dom7Container, direction: SwipeoutDirection, callback: Void->Void): Void;
+	public function swipeoutClose(el: fw7.Dom7.Dom7Container, callback: Void->Void): Void;
+	public function swipeoutDelete(el: fw7.Dom7.Dom7Container, callback: Void->Void): Void;
 	
 	public function sortableOpen(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	public function sortableClose(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	public function sortableToggle(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	
 	
-	public function virtualList<T>(listBlockContainer: Dom7Container, params: fw7.VirtualList.VirtualListParams<T>): fw7.VirtualList<T>;
+	public function virtualList<T>(listBlockContainer: fw7.Dom7.Dom7Container, params: fw7.VirtualList.VirtualListParams<T>): fw7.VirtualList<T>;
 	
 	public function addNotification(params: NotificationParams): js.html.Element;
 	public function closeNotification(element: js.html.Element): Void;
