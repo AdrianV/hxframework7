@@ -8,6 +8,7 @@ import fw7.View;
 
 typedef PreprocessCallback = String->Void;
 typedef Fw7Params = {
+	? root: String,
 	? material: Bool,
 	? materialPageLoadDelay: Float,
 	? materialRipple: Bool,
@@ -164,6 +165,7 @@ typedef ButtonParams = {
 	text: String, 
 	? bold: Bool,
 	? color: String,
+	? close: Bool,
 	? onClick: Void->Void,
 }
 
