@@ -57,6 +57,7 @@ typedef RouterOptions = {
 	? content: String,
 	? pageName: String,
 	? template: Dynamic->String,
+	? pageElement: js.html.HtmlElement,
 	? context: Dynamic,
 	? contextName: String,
 	? query: Dynamic,
@@ -84,14 +85,15 @@ typedef Router = {
 extern class View
 {
 
-	public var params(default, null): fw7.View.ViewParams;
-	public var history(default, null): Array<String>;
-	public var contentCache(default, null): Dynamic;
-	public var url(default, null): String;
-	public var pagesContainer(default, null): fw7.Dom7;
-	public var activePage(default, null): PageData;
-	public var main(default, null): Bool;
-	public var router(default, null): Router;
+	public var params(default, never): fw7.View.ViewParams;
+	public var history(default, never): Array<String>;
+	public var contentCache(default, never): Dynamic;
+	public var url(default, never): String;
+	public var pagesContainer(default, never): fw7.Dom7;
+	public var activePage(default, never): PageData;
+	public var main(default, never): Bool;
+	public var router(default, never): Router;
+	public var allowPageChange(default, never): Bool;
 	public function hideNavbar(): Void;
 	public function showNavbar(): Void;
 	public function hideToolbar(): Void;

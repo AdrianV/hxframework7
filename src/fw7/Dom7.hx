@@ -40,8 +40,7 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	
 	//inline public static function D(selector:String): Dom7 return new Dom7(selector);
 	
-	public static var THIS(get, null) : Dom7;
-
+	public static var THIS(get, never) : Dom7;
 	static inline private function get_THIS() : Dom7 {
 		return new Dom7(js.Lib.nativeThis);
 	}
@@ -70,7 +69,10 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	/**
 		Remove (if class is present) or add (if not) one or more classes from each element in the set of matched elements:
 	**/
-	public function toggleClass(className: String): Dom7;
+	public inline function toggleClass(className: String, ? toggle: Bool): Dom7 return Dom7ExtImpl.toggleClass(this, className, toggle);
+	
+	@:native("toggleClass")
+	public function _toggleClass(className: String): Dom7;
 	
 	/**
 		Get or Set property value
@@ -305,4 +307,26 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		}
 	}
 	
+	public inline function toggleButton(disabled: Bool, colorNormal: String, colorDisabled: String): Dom7	{
+		return Dom7ExtImpl.toggleButton(this, disabled, colorNormal, colorDisabled);
+	}
+}
+
+@:native("d.m.x")
+private class Dom7ExtImpl {
+	
+	static public function toggleButton(me: Dom7, disabled: Bool, colorNormal: String, colorDisabled: String): Dom7 {
+		if ( !disabled ) {
+			me.removeClass('disabled button-$colorDisabled').addClass('button-$colorNormal');
+		} else {
+			me.removeClass('button-$colorNormal').addClass('disabled button-$colorDisabled');
+		}
+		return me;
+	}	
+	
+	static public function toggleClass(me: Dom7, className: String, ? toggle: Bool): Dom7 {
+		if (toggle != null) {
+			return if (toggle) me.addClass(className) else me.removeClass(className);
+		} else return me._toggleClass(className);
+	}
 }

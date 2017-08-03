@@ -21,6 +21,7 @@ class CustomPage<T: MainApp>
 		_app = app;
 		_myApp = app.myApp;
 		_myApp.onPageInit(pageName, onInit);
+		_myApp.onPageBeforeAnimation(pageName, run);
 	}
 	
 	public function onInit(p) {
@@ -31,6 +32,8 @@ class CustomPage<T: MainApp>
 	}
 	
 	function init(page: fw7.View.PageData) { }
+	
+	function run(page: fw7.View.PageData) { }
 	
 	function initOnce(page: fw7.View.PageData) { }
 

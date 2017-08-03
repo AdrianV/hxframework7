@@ -8,6 +8,7 @@ package fw7;
 typedef TimePickerParams = {
 	>fw7.Picker.PickerParams,
 	? showDay: Bool,
+	? showTime: Bool,
 	? initialDay: Date,
 	? historyDays: Int,
 	? futureDays: Int,
@@ -19,52 +20,64 @@ typedef TimePickerParams = {
 abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 {
 	//inline function new(p) this = p;
-	
-	static inline var msInADay = 1000 * 60 * 60 * 24;
-	static inline var msInAHour = 1000 * 60 * 60;
-	static inline function dateToDay(date: Date): Int 
-		return Std.int(0.05 + (date.getTime() - date.getHours() * msInAHour) / msInADay);
-	static inline function dateFromDay(day: Int): Date return Date.fromTime(day * msInADay);
-	
-	static function formatValue(picker: fw7.Picker, values: Array<Any>, displayValue: Array<String>): String {
+		
+	static function formatValue(picker: fw7.Picker, values: Array<String>, displayValue: Array<String>): String {
 		var params: TimePickerParams = cast picker.params;
-		var off = params.showDay ? 1 : 0;
-		var h: Int = values[off];
-		var m: Int = values[off + 1];
-		return (h < 10 ? '0$h:' : '$h:') + (m < 10 ? '0$m' : '$m');
+		var result = "";
+		if ( params.showDay ) {
+			var d: Date = Date.fromString(values[0]);
+			result = DateTools.format(d, params.formatDay);
+		}
+		if (params.showTime) {
+			var off = params.showDay ? 1 : 0;
+			var h: Int = Std.parseInt(values[off]);
+			var m: Int = Std.parseInt(values[off + 1]);
+			if (result != "") result += " ";
+			result += (h < 10 ? '0$h:' : '$h:') + (m < 10 ? '0$m' : '$m');
+		} 
+		return result;
 	}
 	
 	static public function timePicker(app: fw7.Framework7, params: TimePickerParams): TimePicker {
 		var par = Reflect.copy(params);
+		if (par.showTime == null) par.showTime = true;
 		par.cols = [];
 		if (par.rotateEffect == null) par.rotateEffect = true;
 		if (params.showDay) {
-			var day = dateToDay(par.initialDay != null ? par.initialDay : 
-				(par.timeValue != null) ? par.timeValue : Date.now());
-			var dfrom = par.historyDays != null ? day - par.historyDays : day;
-			var dto = par.futureDays != null ? day + 1 + par.futureDays : day + 1;
+			var day = par.initialDay != null ? par.initialDay : 
+				(par.timeValue != null) ? par.timeValue : Date.now();
+			var dfrom = par.historyDays != null ? DateTools.delta(day, DateTools.days(-par.historyDays)) : day;
+			var dto = DateTools.delta(day, DateTools.days(par.futureDays != null ? 1 + par.futureDays : 1));
 			var format = par.formatDay != null ? par.formatDay : "%m-%d";
+			var val = [];
+			var d = dfrom;
+			while (d.getTime() < dto.getTime()) {
+				val.push(d);
+				d = DateTools.delta(d, DateTools.days(1));
+			}
 			par.cols.push({
-				values: [for (d in dfrom ... dto) d],
-				displayValues:[for (d in dfrom ... dto) DateTools.format(dateFromDay(d), format)],
+				values: val.map( function(d) return d.toString() ),
+				displayValues: val.map( function(d) return DateTools.format(d, format)),
 			});
 		}
-		par.cols.push({
-			values: [for (h in 0 ... 24) h],
-			displayValues: [for (h in 0 ... 24) h < 10 ? '0$h' : '$h'],
-		});
-		par.cols.push({
-			values: [for (m in 0 ... 60) m],
-			displayValues: [for (m in 0 ... 60) m < 10 ? '0$m' : '$m'],
-		});
+		if (par.showTime) {
+			par.cols.push({
+				values: [for (h in 0 ... 24) Std.string(h)],
+				displayValues: [for (h in 0 ... 24) h < 10 ? '0$h' : '$h'],
+			});
+			par.cols.push({
+				values: [for (m in 0 ... 60) Std.string(m)],
+				displayValues: [for (m in 0 ... 60) m < 10 ? '0$m' : '$m'],
+			});
+		}
 		par.formatValue = formatValue;
 		if (par.timeValue != null) {
 			par.value = [];
 			if (par.showDay) {
-				par.value.push(dateToDay(par.timeValue));
+				par.value.push((par.timeValue != null ? par.timeValue : par.initialDay).toString());
 			}
-			par.value.push(par.timeValue.getHours());
-			par.value.push(par.timeValue.getMinutes());
+			par.value.push(Std.string(par.timeValue.getHours()));
+			par.value.push(Std.string(par.timeValue.getMinutes()));
 		}
 		return cast app.picker(par);
 	}
@@ -76,10 +89,10 @@ abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 	public function getTimeValue(): Date {
 		var params: TimePickerParams = cast this.params;
 		var off = params.showDay ? 1 : 0;
-		var h: Int = this.value[off];
-		var m: Int = this.value[off + 1];
+		var h: Int = params.showTime ? Std.parseInt(this.value[off]) : 0;
+		var m: Int = params.showTime ? Std.parseInt(this.value[off + 1]) : 0;
 		return if (params.showDay) {
-			var d = dateFromDay(this.value[0]);
+			var d: Date = Date.fromString(this.value[0]);
 			new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, 0);
 		} else
 			Date.fromTime(DateTools.hours(h) + DateTools.minutes(m));

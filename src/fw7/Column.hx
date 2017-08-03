@@ -6,14 +6,14 @@ package fw7;
  */
 
 typedef ColumnParams<T> = {
-	? values: Array<Any>,
+	? values: Array<String>,
 	? displayValues: Array<String>,
 	? cssClass: String,
 	? textAlign: String,
 	? width: Int,
 	? divider: Bool,
 	? content: String,
-	? onChange: T->Any->String->Void,
+	? onChange: T->String->String->Void,
 }
  
 extern class Column<T> {

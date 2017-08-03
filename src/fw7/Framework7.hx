@@ -239,10 +239,9 @@ extern class Framework7
 	public function hideIndicator(): Void;
 	
 	public function modal(params: ModalOptions): Modal;
-	public function closeModal(modal: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
+	public function closeModal(modal: haxe.extern.EitherType<String, js.html.HtmlElement>, ? animated: Bool): Void;
 	
-	@:overload(function(html: String, ? removeOnClose: Bool): Modal {})
-	public function popup(modal: haxe.extern.EitherType<String, js.html.HtmlElement>): Modal;
+	public function popup(modal: haxe.extern.EitherType<String, js.html.HtmlElement>, ? removeOnClose: Bool, ? animated: Bool): Modal;
 	//public function closePopup(modal: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	
 	@:overload(function(html: String, target: haxe.extern.EitherType<String, js.html.HtmlElement>, ? removeOnClose: Bool): Modal {})
@@ -275,6 +274,9 @@ extern class Framework7
 	
 	public function addNotification(params: NotificationParams): js.html.Element;
 	public function closeNotification(element: js.html.Element): Void;
+	
+	public function setProgressbar(container: haxe.extern.EitherType<String, js.html.HtmlElement>, progress: Float, speed: Float): Void;
+	public function hideProgressbar(container: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
 	
 	public function onPageBeforeInit(pageName: String, callback: PageData->Void): CallbackObject;
 	public function onPageInit(pageName: String, callback: PageData->Void): CallbackObject;
