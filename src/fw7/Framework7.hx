@@ -258,6 +258,8 @@ extern class Framework7
 	public function openPanel(position: PanelPosition): Void;
 	public function closePanel(): Void;
 	
+	public function photoBrowser(params: fw7.PhotoBrowser.PhotoBrowserParams): fw7.PhotoBrowser;
+
 	public function pullToRefreshDone(element: fw7.Dom7.Dom7Container): Void;
 	public function pullToRefreshTrigger(element: fw7.Dom7.Dom7Container): Void;
 	
