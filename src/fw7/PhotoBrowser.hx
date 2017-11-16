@@ -1,7 +1,9 @@
 package fw7;
 
+typedef PhotoUrl = haxe.extern.EitherType<String,{url:String, ?caption: String}>;
+
 typedef PhotoBrowserParams = {
-	photos: Array<String>,
+	photos: Array<PhotoUrl>,
 	? initialSlide: Int,
 	? spaceBetween: Float,
 	? speed: Float,
