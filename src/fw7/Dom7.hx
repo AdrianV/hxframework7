@@ -5,6 +5,7 @@ package fw7;
  * @author 
  */
 
+@:struct
 class Dom7Iterator 
 {
 	var arr: Dom7;
@@ -310,6 +311,9 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	public inline function toggleButton(disabled: Bool, colorNormal: String, colorDisabled: String): Dom7	{
 		return Dom7ExtImpl.toggleButton(this, disabled, colorNormal, colorDisabled);
 	}
+
+	public inline	function doWith(action: Dom7->Dom7): Dom7 return action(this);
+
 }
 
 @:native("d.m.x")
@@ -317,9 +321,9 @@ private class Dom7ExtImpl {
 	
 	static public function toggleButton(me: Dom7, disabled: Bool, colorNormal: String, colorDisabled: String): Dom7 {
 		if ( !disabled ) {
-			me.removeClass('disabled button-$colorDisabled').addClass('button-$colorNormal');
+			me.removeClass('disabled color-$colorDisabled').addClass('color-$colorNormal');
 		} else {
-			me.removeClass('button-$colorNormal').addClass('disabled button-$colorDisabled');
+			me.removeClass('color-$colorNormal').addClass('disabled color-$colorDisabled');
 		}
 		return me;
 	}	
@@ -329,4 +333,5 @@ private class Dom7ExtImpl {
 			return if (toggle) me.addClass(className) else me.removeClass(className);
 		} else return me._toggleClass(className);
 	}
+
 }
