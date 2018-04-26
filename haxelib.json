@@ -4,7 +4,7 @@
   "license": "MIT",
   "tags": ["javascript", "framework7"],
   "description": "Haxe wrapper for the Framework7 library.",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "releasenote": "Initial release.",
   "contributors": ["Adrian"],
   "dependencies": {
