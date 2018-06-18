@@ -5,38 +5,63 @@ package fw7;
  * @author 
  */
 import fw7.Framework7;
-
-typedef SwipeCallbackData = {
-	percentage: Float,
-	activePage: js.html.HtmlElement,
-	previousPage: js.html.HtmlElement,
-	activeNavbar: js.html.HtmlElement,
-	previousNavbar: js.html.HtmlElement,
-}
+import fw7.Router;
+import fw7.Dom7;
 
 typedef ViewParams = {
-	? dynamicNavbar: Bool,
+	? name: String,
+	? main: Bool,
+	? router: Bool,
 	? url: String,
-	? domCache: Bool,
+	? stackPages: Bool,
 	? linksView: haxe.extern.EitherType<String, View>,
 	? uniqueHistory: Bool,
 	? uniqueHistoryIgnoreGetParameters: Bool,
 	? allowDuplicateUrls: Bool,
-	? animatePages: Bool,
+	? animate: Bool,
 	? preloadPreviousPage: Bool,
 	? reloadPages: Bool,
-	? preroute: fw7.View->Dynamic->Void,
-	? preprocess: String->String->PreprocessCallback->Void,
-	? swipeBackPage: Bool,
-	? swipeBackPageThreshold: Float,
-	? swipeBackPageActiveArea: Float,
-	? swipeBackPageAnimateShadow: Bool,
-	? swipeBackPageAnimateOpacity: Bool,
-	? onSwipeBackMove: SwipeCallbackData->Void,
-	? onSwipeBackBeforeChange: SwipeCallbackData->Void,
-	? onSwipeBackAfterChange: SwipeCallbackData->Void,
-	? onSwipeBackBeforeReset: SwipeCallbackData->Void,
-	? onSwipeBackAfterReset: SwipeCallbackData->Void,
+	? restoreScrollTopOnBack: Bool,
+	? iosPageLoadDelay: Float,
+	? materialPageLoadDelay: Float,
+	? passRouteQueryToRequest: Bool,
+	? passRouteParamsToRequest: Bool,
+	// Routes
+	? routes: Array<RoutesInfo>,
+	? routesAdd: Array<RoutesInfo>,
+	// Elements Removal
+	? removeElements: Bool,
+	? removeElementsWithTimeout: Bool,
+	? removeElementsTimeout: Float,
+	? unloadTabContent: Bool,
+	// XHR Cache
+	? xhrCache: Bool,
+	? xhrCacheIgnore: Array<String>,
+	? xhrCacheIgnoreGetParameters: Bool,
+	? xhrCacheDuration: Float,
+	// iOS Dynamic Navbar
+	? iosDynamicNavbar: Bool,
+	? iosSeparateDynamicNavbar: Bool,
+	? iosAnimateNavbarBackIcon: Bool,
+	// Swipe back
+	? iosSwipeBack: Bool,
+	? iosSwipeBackThreshold: Float,
+	? iosSwipeBackActiveArea: Float,
+	? iosSwipeBackAnimateShadow: Bool,
+	? iosSwipeBackAnimateOpacity: Bool,
+	? mdSwipeBack: Bool,
+	? mdSwipeBackThreshold: Float,
+	? mdSwipeBackActiveArea: Float,
+	? mdSwipeBackAnimateShadow: Bool,
+	? mdSwipeBackAnimateOpacity: Bool,
+	// Push State
+	? pushState: Bool,
+	? pushStateRoot: String,
+	? pushStateAnimate: Bool,
+	? pushStateAnimateOnLoad: Bool,
+	? pushStateSeparator: String,
+	? pushStateOnLoad: Bool,
+	? on: Dynamic,
 }
 
 typedef PageData = {
@@ -69,20 +94,13 @@ typedef RouterOptions = {
 	? pushState: Bool,
 }
 
-typedef Router = {
-	load: RouterOptions->Bool,
-	back: RouterOptions->Bool,
-	loadPage: haxe.extern.EitherType<String, RouterOptions>->Void,
-	loadContent: String->Void,
-	reloadPage: String->Void,
-	reloadContent: String->Void,
-	reloadPreviousPage: String->Void,
-	reloadPreviousContent: String->Void,
-	refreshPage: Void->Void,
-	refreshPreviousPage: Void->Void,
+
+extern class ViewApp {
+	public function create(viewEl: Dom7Container, parameters: ViewParams): View;
+	public function get(viewEl: Dom7Container): View;
 }
 
-extern class View
+extern class View extends Fw7Destroyable
 {
 
 	public var params(default, never): fw7.View.ViewParams;
@@ -94,9 +112,10 @@ extern class View
 	public var main(default, never): Bool;
 	public var router(default, never): Router;
 	public var allowPageChange(default, never): Bool;
+
+	public function destroy(): Void;
 	public function hideNavbar(): Void;
 	public function showNavbar(): Void;
 	public function hideToolbar(): Void;
 	public function showToolbar(): Void;
-	public function destroy(): Void;
 }

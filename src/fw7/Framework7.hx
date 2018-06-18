@@ -4,117 +4,89 @@ package fw7;
  * ...
  * @author 
  */
+import fw7.Dom7;
 import fw7.View;
+import fw7.Router;
 
 typedef PreprocessCallback = String->Void;
+
+enum abstract AppTheme(String) {
+	var atAuto = "auto";
+	var atMaterial = "md";
+	var atIos = "ios";
+}
+
+
+typedef TouchParams = {
+	?	fastClicks: Bool,
+	?	fastClicksDistanceThreshold: Float,
+	?	fastClicksDelayBetweenClicks: Float,
+	?	fastClicksExclude: String,
+	?	disableContextMenu: Bool,
+	?	tapHold: Bool,
+	?	tapHoldDelay: Float,
+	?	tapHoldPreventClicks: Bool,
+	?	activeState: Bool,
+	?	activeStateElements: String,
+	?	materialRipple: Bool,
+	?	materialRippleElements: String,
+}
+
+
 typedef Fw7Params = {
+	? id: String,
+	? name: String,
+	? version: String,
+	? theme: AppTheme,
+	? routes: Array<RoutesInfo>,
 	? root: String,
-	? material: Bool,
-	? materialPageLoadDelay: Float,
-	? materialRipple: Bool,
-	? materialRippleElements: String,
-	? materialPreloaderSvg: String,
-	? cache: Bool,
-	? cacheDuration: Float,
-	? cacheIgnore: Array<String>,
-	? cacheIgnoreGetParameters: Bool,
-	? fastClicks: Bool,
-	? fastClicksDelayBetweenClicks: Float,
-	? fastClicksDistanceThreshold: Float,
-	? activeState: Bool,
-	? activeStateElemets: String,
-	? tapHold: Bool,
-	? tapHoldDelay: Float,
-	? tapHoldPreventClicks: Bool,
-	? router: Bool,
-	? ajaxLinks: String,
-	? dynamicPageUrl: String,
-	? uniqueHistory: Bool,
-	? uniqueHistoryIgnoreGetParameters: Bool,
-	? externalLinks: String,
-	? allowDuplicateUrls: Bool,
-	? animateNavBackIcon: Bool,
-	? animatePages: Bool,
-	? preloadPreviousPage: Bool,
-	? preroute: fw7.View->Dynamic->Void,
-	? preprocess: String->String->PreprocessCallback->Void,
-	? pushState: Bool,
-	? pushStateSeparator: String,
-	? pushStateRoot: String,
-	? pushStateNoAnimation: Bool,
-	? pushStatePreventOnLoad: Bool,
-	? swipeBackPage: Bool,
-	? swipeBackPageThreshold: Float,
-	? swipeBackPageActiveArea: Float,
-	? swipeBackPageAnimateShadow: Bool,
-	? swipeBackPageAnimateOpacity: Bool,
-	? sortable: Bool,
-	? swipeout: Bool,
-	? swipeoutNoFollow: Bool,
-	? swipePanel: String,
-	? swipePanelCloseOpposite: Bool,
-	? swipePanelOnlyClose: Bool,
-	? swipePanelActiveArea: Float,
-	? swipePanelNoFollow: Bool,
-	? swipePanelThreshold: Float,
-	? panelsCloseByOutside: Bool,
-	? modalTitle: String,
-	? modalButtonOk: String,
-	? modalButtonCancel: String,
-	? modalPreloaderTitle: String,
-	? modalCloseByOutside: Bool,
-	? actionsCloseByOutside: Bool,
-	? popupCloseByOutside: Bool,
-	? modalTemplate: String,
-	? modalActionsTemplate: String,
-	? modalActionsToPopoverTemplate: String,
-	? modalUsernamePlaceholder: String,
-	? modalPasswordPlaceholder: String,
-	? modalStack: Bool,
-	? smartSelectOpenIn: String,
-	? smartSelectBackTemplate: String,
-	? smartSelectPopupCloseTemplate: String,
-	? smartSelectBackText: String,
-	? smartSelectPopupCloseText: String,
-	? smartSelectPickerCloseText: String,
-	? smartSelectSearchbar: Bool,
-	? smartSelectBackOnSelect: Bool,
-	? smartSelectFormTheme: String,
-	? smartSelectNavbarTheme: String,
-	? hideNavbarOnPageScroll: Bool,
-	? hideToolbarOnPageScroll: Bool,
-	? hideTabbarOnPageScroll: Bool,
-	? showBarsOnPageScrollEnd: Bool,
-	? showBarsOnPageScrollTop: Bool,
-	? scrollTopOnNavbarClick: Bool,
-	? imagesLazyLoadThreshold: Float,
-	? imagesLazyLoadSequential: Bool,
-	? imagesLazyLoadPlaceholder: String,
-	? notificationTitle: String,
-	? notificationSubtitle: String,
-	? notificationMedia: String,
-	? notificationHold: Float,
-	? notificationCloseOnClick: Bool,
-	? notificationCloseIcon: String,
-	? notificationCloseButtonText: String,
-	? statusbarOverlay: Bool,
-	? scrollTopOnStatusbarClick: Bool,
-	? template7Pages: Bool,
-	? template7Data: Dynamic,
-	? precompileTemplates: Bool,
-	? templates: Dynamic,
-	? onPageBeforeInit: Framework7->PageData->Void,
-	? onPageInit: Framework7->PageData->Void,
-	? onPageBeforeAnimation: Framework7->PageData->Void,
-	? onPageAfterAnimation: Framework7->PageData->Void,
-	? onPageBeforeRemove: Framework7->PageData->Void,
-	? onPageBack: Framework7->PageData->Void,
-	? onPageAfterBack: Framework7->PageData->Void,
-	? viewClass: String,
-	? viewMainClass: String,
-	? viewsClass: String,
+	? data: Void->Any,
+	? methods: Dynamic,
+	? on: Dynamic,
 	? init: Bool,
-	
+	? initOnDeviceReady: Bool,
+	? clicks: {externalLinks: String},
+	? touch: TouchParams,
+	? panel: {
+		?	leftBreakpoint: Float,
+		?	rightBreakpoint: Float,
+		?	swipe: String,
+		?	swipeActiveArea: Float,
+		?	swipeCloseOpposite: Bool,
+		?	swipeOnlyClose: Bool,
+		?	swipeNoFollow: Bool,
+		?	swipeThreshold: Float,
+		?	closeByBackdropClick: Bool,
+	},
+	? dialog: {
+		? title: String,
+		? buttonOk: String,
+		? buttonCancel: String,
+		? usernamePlaceholder: String,
+		? passwordPlaceholder: String,
+		? preloaderTitle: String,
+		? progressTitle: String,
+		? destroyPredefinedDialogs: Bool,
+		? keyboardActions: Bool,
+	},
+	? navbar: {
+		? hideOnPageScroll: Bool,
+		? showOnPageScrollEnd: Bool,
+		? showOnPageScrollTop: Bool,
+		? scrollTopOnTitleClick: Bool,
+		? iosCenterTitle: Bool,
+	},
+	? swipeout: {
+		? noFollow: Bool,
+		? removeElements: Bool,
+		? removeElementsWithTimeout: Bool,
+		? removeElementsTimeout: Float,
+	},
+	? toolbar: {
+		? hideOnPageScroll: Bool,
+		? showOnPageScrollEnd: Bool,
+		? showOnPageScrollTop: Bool,
+	},
 }
 
 typedef ModalOptions = {
@@ -125,41 +97,12 @@ typedef ModalOptions = {
 	
 }
 
-typedef ActionButton = {
-	text: String,
-	? bold: Bool,
-	? color: String,
-	? bg: String,
-	? label: Bool,
-	? disabled: Bool,
-	? onClick: Void->Void,
-}
 
 typedef CallbackObject = {
 	function trigger(): Void;
 	function remove(): Void;
 }
 
-@:enum abstract SwipeoutDirection(String) {
-	var left = "left";
-	var right = "right";
-}
-
-typedef NotificationParams = {
-	message: String,
-	? title: String,
-	? subtitle: String,
-	? media: String,
-	? hold: Float,
-	? closeIcon: Bool,
-	? closeButtonText: String,
-	? closeOnClick: Bool,
-	? additionalClass: String,
-	? custom: String,
-	? onClick: Void->Void,
-	? onClose: Void->Void,
-	? button: ButtonParams,
-}
 
 typedef ButtonParams = {
 	text: String, 
@@ -174,112 +117,185 @@ typedef ModalButtonParams = {
 	? close: Bool,
 }
 
-@:enum abstract PanelPosition(String) to String {
-	var left = "left";
-	var right = "right";
-}
 
 typedef Modal = js.html.HtmlElement;
+
+extern class Fw7ConstructorApp<P:{},R: Fw7Object> {
+	public function create(params: P): R;
+	public inline function createI18n(params: P, i18params: P): R 
+		return create(fw7.i18n.ParamFill.fill(params, i18params));
+	public function get(el: Dom7Container): R;
+	public function destroy(el: Dom7Container): Void;	
+}
+
+typedef Fw7EventTargetContainer = haxe.extern.EitherType<js.html.Element, Fw7Object>;
+
+abstract Fw7EventTarget(Fw7EventTargetContainer) {
+
+	@:to function toElement(): js.html.Element {
+		if (Std.is(this, js.html.Element)) return (this: js.html.Element);
+		return (this: Fw7Object).el;
+	}
+
+	@:to function toObject(): Fw7Object {
+		if (Std.is(this, js.html.Element)) return null;
+		return (this: Fw7Object);
+	}
+
+	public inline function isElement() return Std.is(this, js.html.Element);
+}
+
+extern class Fw7Object {
+	public var app(default, never): Framework7;
+	public var el(default, never): js.html.Element;
+
+	@:native("$el")
+	public var dom7El(default, never): Dom7;
+	
+	public function on(event: String, handler: ?Fw7EventTarget->Void): Void;
+	public function once(event: String, handler: ?Fw7EventTarget->Void): Void;
+	public function off(event: String, ? handler: ?Fw7EventTarget->Void): Void;
+	public function emit(event: String, ? p1: Any, ? p2: Any, ? p3: Any, ? p4: Any, ? p5: Any, ? p6: Any, ? p7: Any, ? p8: Any, ? p9: Any): Void;
+}
+
+extern class Fw7Destroyable extends Fw7Object {
+	public function destroy(): Void;
+}
+
+typedef RequestParams = {
+	? async: Bool,
+	? method: String,
+	? cache: Bool,
+	? contentType: String,
+	? crossDomain: Bool,
+	? data: Dynamic,
+	? processData: Bool,
+	? dataType: String,
+	? headers: Dynamic,
+	? xhrFields: Dynamic,
+	? username: String,
+	? password: String,
+	? timeout: Float,
+	? beforeCreate: RequestParams-> Void,
+	? beforeOpen: js.html.XMLHttpRequest->RequestParams->haxe.extern.EitherType<Void, Bool>,
+	? beforeSend: js.html.XMLHttpRequest->haxe.extern.EitherType<Void, Bool>,
+	? error: XHRResponse->Float->Void,
+	? success: Dynamic->Float->XHRResponse->Void,
+	? complete: XHRResponse->Float->Void,
+	? statusCode: Dynamic,
+}
+
+extern class XHRResponse extends js.html.XMLHttpRequest 
+{
+	public var requestParameters(default, null): RequestParams;
+	public var requestUrl(default, null): String;
+}
 
 @:native("Framework7")
 extern class Framework7
 {
-	public var swipeoutOpenedEl(default, null): js.html.Element;
 
-	//@:selfCall
 	@:overload(function(params: fw7.Framework7.Fw7Params): Void {})
 	public function new();
 	
-	public function addView(selector: String, ? params: ViewParams): fw7.View;
-	public function getCurrentView(? index: Float): fw7.View;
-	public function searchbar(container: haxe.extern.EitherType<String, js.html.HtmlElement>, ? params: fw7.SearchBar.SearchBarParams): fw7.SearchBar;
-	public function messagebar(container: haxe.extern.EitherType<String, js.html.HtmlElement>, ? params: fw7.Messagebar.MessagebarParams): fw7.Messagebar;
-	public function hideNavbar(navbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function showNavbar(navbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function sizeNavbars(viewContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function hideToolbar(toolbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function showToolbar(toolbar: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function showTab(tab: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	
-	@:overload(function(text: String, title: String, callbackOk: Void->Void): Modal {})
-	@:overload(function(text: String, callbackOk: Void->Void): Modal {})
-	@:overload(function(text: String, title: String): Modal {})
-	public function alert(text: String): Modal;
-	
-	public function calendar(params: fw7.Calendar.CalendarParams): fw7.Calendar;
-	public inline function calendarI18n(params: fw7.Calendar.CalendarParams, i: fw7.Calendar.CalendarParams): fw7.Calendar
-		return calendar(fw7.i18n.ParamFill.fill(params, i));
-	
-	@:overload(function(text: String, title: String, callbackOk: Void->Void, ?callbackCancel: Void->Void): Modal {})
-	@:overload(function(text: String, callbackOk: Void->Void, ?callbackCancel: Void->Void): Modal {})
-	@:overload(function(text: String, title: String): Modal {})
-	public function confirm(text: String): Modal;
-	
-	public function picker(params: fw7.Picker.PickerParams): fw7.Picker;
-	
-	@:overload(function(text: String, title: String, callbackOk: String->Void, ?callbackCancel: String->Void): Modal {})
-	@:overload(function(text: String, callbackOk: String->Void, ?callbackCancel: String->Void): Modal {})
-	@:overload(function(text: String, title: String): Modal {})
-	public function prompt(text: String): Modal;
+	public var id: String;
+	public var name: String;
+	public var version: String;
+	public var routes: Array<RoutesInfo>;
+	public var language: String;
+	public var root: Dom7;
+	public var rtl: Bool;
+	public var theme: String;
+	public var data: Dynamic;
+	public var methods: Dynamic;
+	public var width: Float;
+	public var height: Float;
+	public var left: Float;
+	public var top: Float;
+	public var initialized(default, never): Bool;
+	@:native("$")
+	public var dom7(default, never): String;
+	public var params(default, never): Fw7Params;
+	public var support(default, never): {
+		touch: Bool,
+		transforms3d: Bool,
+		flexbox: Bool,
+		observer: Bool,
+		passiveListener: Bool,
+		gestures: Bool,
+		positionSticky: Bool,
+	}
+	public var utils(default, never): {
+		function parseUrlQuery(url: String): Dynamic;
+		function serializeObject(object: Dynamic): String;
+		function requestAnimationFrame(callback: Void->Void): Float;
+		function cancelAnimationFrame(requestId: Float): Void;
+		function removeDiacritics(text: String): String;
+		function nextFrame(callback: Void->Void): Void;
+		function nextTick(callback: Void->Void, delay: Float): Float;
+		function now(): Float;
+		function extend(p1: Any, ? p2: Any, ? p3: Any, ? p4: Any, ? p5: Any, ? p6: Any, ? p7: Any, ? p8: Any, ? p9: Any): Any;
+	}
+	public var request(default, never): haxe.extern.EitherType<{
+		function get(url: String, ?data: Dynamic, ?success: Dynamic->Float->XHRResponse->Void, ?error: XHRResponse->Float->Void, ?dataType: String): XHRResponse;
+		function post(url: String, ?data: Dynamic, ?success: Dynamic->Float->XHRResponse->Void, ?error: XHRResponse->Float->Void, ?dataType: String): XHRResponse;
+		function json(url: String, ?data: Dynamic, ?success: Dynamic->Float->XHRResponse->Void, ?error: XHRResponse->Float->Void): XHRResponse;
+		function postJSON(url: String, ?data: Dynamic, ?success: Dynamic->Float->XHRResponse->Void, ?error: XHRResponse->Float->Void): XHRResponse;
+		function setup(parameters: RequestParams): Void;
+	}, RequestParams->js.html.XMLHttpRequest>;
 
-	@:overload(function(text: String, title: String, callbackOk: String->String->Void, ?callbackCancel: String->String->Void): Modal {})
-	@:overload(function(text: String, callbackOk: String->String->Void, ?callbackCancel: String->String->Void): Modal {})
-	@:overload(function(text: String, title: String): Modal {})
-	public function modalLogin(text: String): Modal;
+	public var accordion(default, never): {
+		function open(el: Dom7Container): Void;
+		function close(el: Dom7Container): Void;
+		function toggle(el: Dom7Container): Void;
+	}
+	public var actions(default, never): fw7.Actions.ActionsApp;
+	public var autocomplete(default, never): fw7.Autocomplete.AutocompleteApp;
+	public var calendar(default, never): fw7.Calendar.CalendarApp;
+	public var dataTable(default, never): fw7.DataTable;
+	public var dialog(default, never): fw7.Dialog.DialogApp;
+	public var loginScreen(default, never): fw7.LoginScreen.LoginScreenApp;
+	public var messagebar(default, never): fw7.Messagebar.MessagebarApp;
+	public var navbar(default, never): {
+		function hide(navbarEl: Dom7Container, animate: Bool): Void;
+		function show(navbarEl: Dom7Container, animate: Bool): Void;
+		function size(navbarEl: Dom7Container): Void;
+		function getElByPage(pageEl: Dom7Container): Void;
+	}
+	public var notification(default, never): fw7.Notification.NotificationApp;
+	public var panel(default, never): fw7.Panel.PanelApp;
+	public var photoBrowser(default, never): fw7.PhotoBrowser.PhotoBrowserApp;
+	public var picker(default, never): fw7.Picker.PickerApp;
+	public var popover(default, never): fw7.Popover.PopoverApp;
+	public var popup(default, never): fw7.Popup.PopupApp;
+	public var progressbar(default, never): {
+		public function set(? el: Dom7Container, progress: Float, duration: Float): js.html.Element;
+		public function show(el: Dom7Container, progress: Float, color: String): js.html.Element;
+		public function hide(el: Dom7Container): js.html.Element;
+	} 
+	public var ptr(default, never): fw7.PullToRefresh.PullToRefreshApp;
+	public var searchbar(default, never): fw7.SearchBar.SearchBarApp;
+	public var sortable(default, never): {
+		public function enable(listEl: Dom7Container): Void;
+		public function disable(listEl: Dom7Container): Void;
+		public function toggle(listEl: Dom7Container): Void;
+	}
+	public var swipeout(default, never): fw7.Swipeout;
+	public var toast(default, never): fw7.Toast.ToastApp;
+	public var toolbar(default, never): {
+		function hide(toolbarEl: Dom7Container, animate: Bool): Void;
+		function show(toolbarEl: Dom7Container, animate: Bool): Void;
+		function setHighlight(toolbarEl: Dom7Container): Void;
+	}
+	public var views(default, never): ViewApp;
+	public var virtualList(default, never): fw7.VirtualList.VirtualListApp;
 
-	@:overload(function(text: String, title: String, callbackOk: String->Void, ?callbackCancel: String->Void): Modal {})
-	@:overload(function(text: String, callbackOk: String->Void, ?callbackCancel: String->Void): Modal {})
-	@:overload(function(text: String, title: String): Modal {})
-	public function modalPassword(text: String): Modal;
+	public function on(event: String, handler: ?Fw7EventTarget->Void): Void;
+	public function once(event: String, handler: ?Fw7EventTarget->Void): Void;
+	public function off(event: String, ? handler: ?Fw7EventTarget->Void): Void;
+	public function emit(event: String, ? p1: Any, ? p2: Any, ? p3: Any, ? p4: Any, ? p5: Any, ? p6: Any, ? p7: Any, ? p8: Any, ? p9: Any): Void;
 	
-	public function showPreloader(? title: String): Modal;
-	public function hidePreloader(): Void;
-
-	public function showIndicator(): Modal;
-	public function hideIndicator(): Void;
-	
-	public function modal(params: ModalOptions): Modal;
-	public function closeModal(modal: haxe.extern.EitherType<String, js.html.HtmlElement>, ? animated: Bool): Void;
-	
-	public function popup(modal: haxe.extern.EitherType<String, js.html.HtmlElement>, ? removeOnClose: Bool, ? animated: Bool): Modal;
-	//public function closePopup(modal: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	
-	@:overload(function(html: String, target: haxe.extern.EitherType<String, js.html.HtmlElement>, ? removeOnClose: Bool): Modal {})
-	public function popover(popover: haxe.extern.EitherType<String, js.html.HtmlElement>, target: haxe.extern.EitherType<String, js.html.HtmlElement>): Modal;
-
-	@:overload(function(groups: Array<Array<ActionButton>>):Void {})
-	public function actions(buttons: Array<ActionButton>): Void;
-	
-	public function loginScreen(): Void;
-	
-	@:overload(function(html: String, ? removeOnClose: Bool): Void {})
-	public function pickerModal(picker: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	
-	public function openPanel(position: PanelPosition): Void;
-	public function closePanel(): Void;
-	
-	public function photoBrowser(params: fw7.PhotoBrowser.PhotoBrowserParams): fw7.PhotoBrowser;
-
-	public function pullToRefreshDone(element: fw7.Dom7.Dom7Container): Void;
-	public function pullToRefreshTrigger(element: fw7.Dom7.Dom7Container): Void;
-	
-	public function swipeoutOpen(el: fw7.Dom7.Dom7Container, direction: SwipeoutDirection, callback: Void->Void): Void;
-	public function swipeoutClose(el: fw7.Dom7.Dom7Container, callback: Void->Void): Void;
-	public function swipeoutDelete(el: fw7.Dom7.Dom7Container, callback: Void->Void): Void;
-	
-	public function sortableOpen(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function sortableClose(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	public function sortableToggle(sortableContainer: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	
-	
-	public function virtualList<T>(listBlockContainer: fw7.Dom7.Dom7Container, params: fw7.VirtualList.VirtualListParams<T>): fw7.VirtualList<T>;
-	
-	public function addNotification(params: NotificationParams): js.html.Element;
-	public function closeNotification(element: js.html.Element): Void;
-	
-	public function setProgressbar(container: haxe.extern.EitherType<String, js.html.HtmlElement>, progress: Float, speed: Float): Void;
-	public function hideProgressbar(container: haxe.extern.EitherType<String, js.html.HtmlElement>): Void;
-	
+	/*		
 	public function onPageBeforeInit(pageName: String, callback: PageData->Void): CallbackObject;
 	public function onPageInit(pageName: String, callback: PageData->Void): CallbackObject;
 	public function onPageReinit(pageName: String, callback: PageData->Void): CallbackObject;
@@ -288,4 +304,5 @@ extern class Framework7
 	public function onPageBeforeRemove(pageName: String, callback: PageData->Void): CallbackObject;
 	public function onPageBack(pageName: String, callback: PageData->Void): CallbackObject;
 	public function onPageAfterBack(pageName: String, callback: PageData->Void): CallbackObject;
+	*/
 }

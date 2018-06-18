@@ -1,5 +1,8 @@
 package fw7;
 
+import fw7.Framework7;
+import fw7.Dom7;
+
 typedef PhotoUrl = haxe.extern.EitherType<String,{url:String, ?caption: String}>;
 
 typedef PhotoBrowserParams = {
@@ -45,7 +48,9 @@ typedef PhotoBrowserParams = {
 	? onLazyImageReady: fw7.Swiper->Int->js.html.Image -> Void,
 }
 
-extern class PhotoBrowser {
+extern class PhotoBrowserApp extends Framework7.Fw7ConstructorApp<PhotoBrowserParams, PhotoBrowser> {
+}
+extern class PhotoBrowser extends Framework7.Fw7Destroyable {
 	var swiper(default, null): fw7.Swiper;
 	var container(default, null): fw7.Dom7.Dom7Container;
 	var exposed(default, null): Bool;

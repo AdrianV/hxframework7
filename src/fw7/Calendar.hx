@@ -1,9 +1,5 @@
 package fw7;
 
-/**
- * ...
- * @author 
- */
 
 import fw7.Dom7; 
 import fw7.Framework7;
@@ -18,17 +14,14 @@ typedef DateRangeObject = {
 
 typedef DateRange = haxe.extern.EitherType<haxe.extern.EitherType<DateRangeArray,DateRangeFunction>,DateRangeObject>;
 
+enum abstract CalendarPosition(String) {
+	var cpAuto = "auto";
+	var cpPopover = "popover";
+	var cpSheet = "sheet";
+	var cpCustomModal = "customModal";
+}
+
 typedef CalendarParams = {
-	? container: Dom7Container,
-	? input: Dom7Container,
-	? scrollToInput: Bool,
-	? inputReadOnly: Bool,
-	? convertToPopover: Bool,
-	? onlyOnPopover: Bool,
-	? cssClass: String,
-	? toolbar: Bool,
-	? toolbarCloseText: String,
-	? toolbarTemplate: String,
 	? value: Array<DateValue>,
 	? disabled: DateRange,
 	? events: DateRange,
@@ -38,46 +31,70 @@ typedef CalendarParams = {
 	? monthNamesShort: Array<String>,
 	? dayNames: Array<String>,
 	? dayNamesShort: Array<String>,
-	? updateValuesOnTouchmove: Bool,
 	? firstDay: Int,
 	? weekendDays: Array<Int>,
 	? dateFormat: String,
 	? multiple: Bool,
+	? rangePicker: Bool,
 	? direction: String,
 	? minDate: Date,
 	? maxDate: Date,
-	? touchmove: Bool,
+	? touchMove: Bool,
 	? animate: Bool,
 	? closeOnSelect: Bool,
 	? weekHeader: Bool,
-	? monthPicker: Bool,
-	? monthPickerTemplate: String,
-	? yearPicker: Bool,
-	? yearPickerTemplate: String,
-	? headerPlaceholder: String,
+	? monthSelector: Bool,
+	? yearSelector: Bool,
+	// Container/opener-specific parameters
+	? containerEl: Dom7Container,
+	? openIn: CalendarPosition,
+	? inputEl: Dom7Container,
+	? scrollToInput: Bool,
+	? inputReadOnly: Bool,
+	? cssClass: String,
+	? closeByOutsideClick: Bool,
+	? toolbar: Bool,
+	? toolbarCloseText: String,	
 	? header: Bool,
-	? footer: Bool,
-	? headerTemplate: String,
-	? footerTemplate: String,
-	? onChange: Calendar->Array<DateValue>->Array<String> ->Void,
-	? onMonthAdd: Calendar->Dom7Container->Void,
-	? onDayClick: Calendar->Dom7Container->Int->Int->Int->Void,
-	? onMonthYearChangeStart: Calendar->Int->Int->Void,
-	? onMonthYearChangeEnd: Calendar->Int->Int->Void,
-	? onOpen: Calendar->Void,
-	? onClose: Calendar->Void,
+	? headerPlaceholder: String,
+	? routableModals: Bool,
+	? url: String,
+	? view: fw7.View,
+	? renderWeekHeader: Void->String,
+	? renderMonths: Date->String,
+	? renderMonth: Date->Int->String,
+	? renderMonthSelector: Void->String,
+	? renderYearSelector: Void->String,
+	? renderHeader: Void->String,
+	? renderToolbar: Void->String,
+	? render: Void->String,
+	? on: Dynamic,
 }
- 
-extern class Calendar
+
+extern class CalendarApp extends Framework7.Fw7ConstructorApp<CalendarParams,Calendar> {	
+	public function close(el: Dom7Container): Calendar;
+}
+
+extern class Calendar extends Framework7.Fw7Destroyable
 {
-	public var params(default, null): CalendarParams;
-	public var value(default, null): Array<DateValue>;
-	public var opened(default, null): Bool;
+	public var params(default, never): CalendarParams;
+	public var containerEl(default, never): js.html.HtmlElement;
+	@:native("$containerEl")
+	public var dom7ContainerEl(default, never): Dom7;
+	public var inputEl(default, never): js.html.HtmlElement;
+	@:native("$inputEl")
+	public var dom7InputEl(default, never): Dom7;
+	public var value(default, never): Array<DateValue>;
+	public var opened(default, never): Bool;
 	@:native("inline") public var inlined(default, null): Bool;
-	public var cols(default, null): Array<Column<Calendar>>;
-	public var container(default, null): fw7.Dom7;
+	public var cols(default, never): Array<Column<Calendar>>;
+	public var url(default, never): String;
+	public var view(default, never): fw7.View;
 	
 	public function setValue(values: Array<DateValue>): Void;
+	public function getValue(): DateValue;
+	public function addValue(value: DateValue): Void;
+	public function update(): Void;
 	public function nextMonth(duration: Float): Void;
 	public function prevMonth(duration: Float): Void;
 	public function nextYear(?duration: Float): Void;
@@ -85,7 +102,4 @@ extern class Calendar
 	public function setYearMonth(year: Int, month: Int, duration: Float): Void;
 	public function open(): Void;
 	public function close(): Void;
-	public function destroy(): Void;
-	
-	
 }
