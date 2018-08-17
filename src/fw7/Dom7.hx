@@ -137,6 +137,8 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		Add event handler function to one or more events to the selected elements.
 		with delegatedTarget = Live/delegated event handler
 	**/
+	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
+	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
 	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function on(eventName: String, handler: js.html.Event->Void): Dom7;
 
@@ -144,6 +146,8 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		Add event handler function to one or more events to the selected elements that will be executed only once
 		with delegatedTarget = Live/delegated event handler that will be executed only once
 	**/
+	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
+	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
 	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function once(eventName: String, handler: js.html.Event->Void): Dom7;
 	
@@ -151,6 +155,8 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		Remove event handler
 		with delegatedTarget = Remove live/delegated event handler
 	**/
+	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
+	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
 	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
 	public function off(eventName: String, handler: js.html.Event->Void): Dom7;
 	

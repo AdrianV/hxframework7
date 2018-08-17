@@ -64,35 +64,6 @@ typedef ViewParams = {
 	? on: Dynamic,
 }
 
-typedef PageData = {
-	name: String,
-	url: String,
-	query: Dynamic,
-	view: fw7.View,
-	container: js.html.HtmlElement,
-	from: String,
-	navbarInnerContainer: js.html.HtmlElement,
-	swipeBack: Bool,
-	context: Dynamic,
-	fromPage: PageData,
-}
-
-typedef RouterOptions = {
-	? url: String,
-	? content: String,
-	? pageName: String,
-	? template: Dynamic->String,
-	? pageElement: js.html.HtmlElement,
-	? context: Dynamic,
-	? contextName: String,
-	? query: Dynamic,
-	? force: Bool,
-	? ignoreCache: Bool,
-	? animatePages: Bool,
-	? reload: Bool,
-	? reloadPrevious: Bool,
-	? pushState: Bool,
-}
 
 
 extern class ViewApp {
@@ -108,7 +79,7 @@ extern class View extends Fw7Destroyable
 	public var contentCache(default, never): Dynamic;
 	public var url(default, never): String;
 	public var pagesContainer(default, never): fw7.Dom7;
-	public var activePage(default, never): PageData;
+	//public var activePage(default, never): fw7.Page;
 	public var main(default, never): Bool;
 	public var router(default, never): Router;
 	public var allowPageChange(default, never): Bool;
