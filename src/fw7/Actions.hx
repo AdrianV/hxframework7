@@ -41,11 +41,10 @@ extern class ActionsApp extends Framework7.Fw7ConstructorApp<ActionsParams, Acti
 	public function close(el: Dom7Container, animate: Bool): Actions;
 }
 
-extern class Actions extends Framework7.Fw7Destroyable {
+extern class Actions extends Framework7.Fw7Destroyable<ActionsParams> {
 	public var backdropEl(default, never): js.html.HtmlElement;
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
-	public var params(default, never): ActionsParams;
 
 	public function open(animate: Bool): Void;
 	public function close(animate: Bool): Void;

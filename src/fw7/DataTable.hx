@@ -9,6 +9,6 @@ typedef DataTableParams = {
 
 extern class DataTableApp extends Framework7.Fw7ConstructorApp<DataTableParams, DataTable> {}
 
-extern class DataTable extends Framework7.Fw7Destroyable {
+extern class DataTable extends Framework7.Fw7Destroyable<DataTableParams> {
 	
 }

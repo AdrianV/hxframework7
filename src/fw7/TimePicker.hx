@@ -1,5 +1,6 @@
 package fw7;
 
+import js.Syntax;
 /**
  * ...
  * @author 
@@ -19,7 +20,7 @@ typedef TimePickerParams = {
 @:forward(params,value,displayValue,opened,inlined,cols,container,setValue,open,close,destroy)
 abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 {
-	//inline function new(p) this = p;
+	inline function new(p) this = p;
 		
 	static function formatValue(picker: fw7.Picker, values: Array<String>, displayValue: Array<String>): String {
 		var params: TimePickerParams = cast picker.params;
@@ -79,7 +80,7 @@ abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 			par.value.push(Std.string(par.timeValue.getHours()));
 			par.value.push(Std.string(par.timeValue.getMinutes()));
 		}
-		return cast app.picker(par);
+		return new TimePicker(app.picker.create(par));
 	}
 
 	public function getValue(): String {

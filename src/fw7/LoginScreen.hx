@@ -16,9 +16,7 @@ extern class LoginScreenApp extends Framework7.Fw7ConstructorApp<LoginScreenPara
 	public function close(el: Dom7Container, animate: Bool): LoginScreen;
 }
 
-extern class LoginScreen extends Framework7.Fw7Destroyable {
-	public var params(default, never): LoginScreenParams;
-
+extern class LoginScreen extends Framework7.Fw7Destroyable<LoginScreenParams> {
 	public function open(animate: Bool): Void;
 	public function close(animate: Bool): Void;
 }

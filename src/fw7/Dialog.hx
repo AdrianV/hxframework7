@@ -43,11 +43,10 @@ extern class DialogApp extends Framework7.Fw7ConstructorApp<DialogParams, Dialog
 
 }
 
-extern class Dialog extends Framework7.Fw7Destroyable {
+extern class Dialog extends Framework7.Fw7Destroyable<DialogParams> {
 	public var backdropEl(default, never): js.html.Element;
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
-	public var params(default, never): DialogParams;
 
 	public function open(animate: Bool): Void;
 	public function close(animate: Bool): Void;

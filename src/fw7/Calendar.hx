@@ -75,9 +75,8 @@ extern class CalendarApp extends Framework7.Fw7ConstructorApp<CalendarParams,Cal
 	public function close(el: Dom7Container): Calendar;
 }
 
-extern class Calendar extends Framework7.Fw7Destroyable
+extern class Calendar extends Framework7.Fw7Destroyable<CalendarParams>
 {
-	public var params(default, never): CalendarParams;
 	public var containerEl(default, never): js.html.HtmlElement;
 	@:native("$containerEl")
 	public var dom7ContainerEl(default, never): Dom7;

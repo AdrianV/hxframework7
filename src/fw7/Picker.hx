@@ -17,7 +17,7 @@ typedef PickerParams = {
 	? updateValuesOnTouchmove: Bool,
 	? freeMode: Bool,
 	? value: Array<String>,
-	? formatValue: Array<String>->Array<String>->String,
+	? formatValue: Picker->Array<String>->Array<String>->String,
 	? cols: Array<ColumnParams<Picker>>,
 	? multiple: Bool,
 	
@@ -44,7 +44,7 @@ extern class PickerApp extends Framework7.Fw7ConstructorApp<PickerParams, Picker
 }
 
 
-extern class Picker extends Framework7.Fw7Destroyable
+extern class Picker extends Framework7.Fw7Destroyable<PickerParams>
 {
 
 	public var containerEl(default, null): js.html.Element;
@@ -59,8 +59,7 @@ extern class Picker extends Framework7.Fw7Destroyable
 	@:native("inline") public var inlined(default, null): Bool;
 	public var url(default, null): String;
 	public var view(default, null): fw7.View;
-	public var params(default, null): PickerParams;
-	//public var displayValue(default, null): Array<String>;
+	public var displayValue(default, null): Array<String>;
 	
 	public function setValue(values: Array<String>, duration: Float): Void;
 	public function getValue(): Array<String>;

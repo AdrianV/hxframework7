@@ -60,8 +60,7 @@ extern class AutocompleteApp extends Framework7.Fw7ConstructorApp<AutocompletePa
 }
 
 
-extern class Autocomplete extends Framework7.Fw7Destroyable {
-	public var params(default, never): AutocompleteParams;
+extern class Autocomplete extends Framework7.Fw7Destroyable<AutocompleteParams> {
 	public var value(default, never): Array<Dynamic>;
 	public var opened(default, never): Bool;
 	public var openerEl(default, never): js.html.HtmlElement;

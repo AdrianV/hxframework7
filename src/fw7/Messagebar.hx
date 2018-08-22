@@ -17,10 +17,8 @@ typedef MessagebarParams = {
 extern class MessagebarApp extends Framework7.Fw7ConstructorApp<MessagebarParams, Messagebar> {
 }
 
-extern class Messagebar extends Framework7.Fw7Destroyable
+extern class Messagebar extends Framework7.Fw7Destroyable<MessagebarParams>
 {
-
-	public var params(default, never): MessagebarParams;
 	public var textareaEl(default, never): fw7.Dom7;
 	public var dom7TextareaEl(default, never): fw7.Dom7;
 	public var attachments: Array<String>;

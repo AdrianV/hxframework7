@@ -71,10 +71,8 @@ extern class ViewApp {
 	public function get(viewEl: Dom7Container): View;
 }
 
-extern class View extends Fw7Destroyable
+extern class View extends Fw7Destroyable<ViewParams>
 {
-
-	public var params(default, never): fw7.View.ViewParams;
 	public var history(default, never): Array<String>;
 	public var contentCache(default, never): Dynamic;
 	public var url(default, never): String;
@@ -82,7 +80,6 @@ extern class View extends Fw7Destroyable
 	//public var activePage(default, never): fw7.Page;
 	public var main(default, never): Bool;
 	public var router(default, never): Router;
-	public var allowPageChange(default, never): Bool;
 
 	public function destroy(): Void;
 	public function hideNavbar(): Void;

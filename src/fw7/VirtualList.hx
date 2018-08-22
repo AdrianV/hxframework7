@@ -32,12 +32,12 @@ extern class VirtualListApp {
 	public function get<T>(el: Dom7Container): VirtualList<T>;
 }
 
-extern class VirtualList<T> extends Framework7.Fw7Destroyable
+extern class VirtualList<T> extends Framework7.Fw7Destroyable<VirtualListParams<T>>
 {
 	public var items: Array<T>;
 	public var filteredItems: Array<T>;
 	public var domCache: Dynamic;
-	public var params: VirtualListParams<T>;
+
 
 	public var pageContentEL: js.html.Element;
 	@:native("$pageContentEL")

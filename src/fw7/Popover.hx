@@ -24,14 +24,13 @@ extern class PopoverApp extends Framework7.Fw7ConstructorApp<PopoverParams, Popo
 	public function close(el: Dom7Container, animate: Bool): Popover;
 }
 
-extern class Popover extends Framework7.Fw7Destroyable {
+extern class Popover extends Framework7.Fw7Destroyable<PopoverParams> {
 	public var backdropEl(default, never): js.html.Element;
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
 	public var targetEl(default, never): js.html.Element;
 	@:native("$targetEl")
 	public var dom7TargetEl(default, never): Dom7;
-	public var params(default, never): PopoverParams;
 
 	public function open(?targetEl: Dom7Container, animate: Bool): Void;
 	public function close(animate: Bool): Void;

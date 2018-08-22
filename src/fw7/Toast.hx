@@ -28,9 +28,7 @@ extern class ToastApp extends Framework7.Fw7ConstructorApp<ToastParams, Toast> {
 	public function close(el: Dom7Container, animate: Bool): Actions;
 }
 
-extern class Toast extends Framework7.Fw7Destroyable {
-	public var params(default, never): ToastParams;
-
+extern class Toast extends Framework7.Fw7Destroyable<ToastParams> {
 	public function open(? animate: Bool): Void;
 	public function close(? animate: Bool): Void;
 

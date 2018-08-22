@@ -158,7 +158,8 @@ extern class Fw7Object {
 	public function emit(event: String, ? p1: Any, ? p2: Any, ? p3: Any, ? p4: Any, ? p5: Any, ? p6: Any, ? p7: Any, ? p8: Any, ? p9: Any): Void;
 }
 
-extern class Fw7Destroyable extends Fw7Object {
+extern class Fw7Destroyable<P:{}> extends Fw7Object {
+	public var params(default, null): P;
 	public function destroy(): Void;
 }
 
@@ -280,6 +281,7 @@ extern class Framework7
 		public function disable(listEl: Dom7Container): Void;
 		public function toggle(listEl: Dom7Container): Void;
 	}
+	public var stepper(default, never): fw7.Stepper.StepperApp;
 	public var swipeout(default, never): fw7.Swipeout;
 	public var toast(default, never): fw7.Toast.ToastApp;
 	public var toolbar(default, never): {

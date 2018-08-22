@@ -33,9 +33,8 @@ extern class SearchBarApp extends Framework7.Fw7ConstructorApp<SearchBarParams, 
 	public function search(el:Dom7Container, query: String): SearchBar;	
 }
 
-extern class SearchBar extends Framework7.Fw7Destroyable
+extern class SearchBar extends Framework7.Fw7Destroyable<SearchBarParams>
 {
-	public var params(default, never): SearchBarParams;
 	public var query(default, never): String;
 	public var previousQuery(default, never): String;
 	public var searchContainer(default, never): js.html.Element;

@@ -20,7 +20,7 @@ class Dom7Iterator
 	public inline function next(): js.html.Element return this.arr[this.cur++];
 }
 
-typedef Dom7Container = haxe.extern.EitherType<Dom7, haxe.extern.EitherType<String, js.html.HtmlElement>>;
+typedef Dom7Container = haxe.extern.EitherType<Dom7, haxe.extern.EitherType<String, js.html.Element>>;
 
 private class X {
 	static public function replaceHandler(t: Dom7, event: String = "click", f: js.html.Event->Void): Dom7 return t.off(event, f).on(event, f); 	

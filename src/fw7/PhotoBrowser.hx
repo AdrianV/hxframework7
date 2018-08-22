@@ -50,12 +50,11 @@ typedef PhotoBrowserParams = {
 
 extern class PhotoBrowserApp extends Framework7.Fw7ConstructorApp<PhotoBrowserParams, PhotoBrowser> {
 }
-extern class PhotoBrowser extends Framework7.Fw7Destroyable {
+extern class PhotoBrowser extends Framework7.Fw7Destroyable<PhotoBrowserParams> {
 	var swiper(default, null): fw7.Swiper;
 	var container(default, null): fw7.Dom7.Dom7Container;
 	var exposed(default, null): Bool;
 	var activeIndex(default, null): Int;
-	var params(default, null): PhotoBrowserParams;
 
 	function open(? index: Int = 0): Void;
 	function close(): Void;

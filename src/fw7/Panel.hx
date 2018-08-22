@@ -32,14 +32,13 @@ extern class PanelApp {
 	
 }
 
-extern class Panel extends Framework7.Fw7Destroyable {
+extern class Panel extends Framework7.Fw7Destroyable<PanelParams> {
 	public var side(default, never): PanelPosition;
 	public var effect: PanelEffect;
 	public var opened: Bool;
 	public var backdropEl(default, never): js.html.Element;
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;	
-	public var params(default, never): PanelParams;
 
 	public function open(animate: Bool): Void;
 	public function close(animate: Bool): Void;

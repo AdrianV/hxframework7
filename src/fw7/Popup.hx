@@ -18,11 +18,10 @@ extern class PopupApp extends Framework7.Fw7ConstructorApp<PopupParams, Popup> {
 	public function close(el: Dom7Container, animate: Bool): Popup;
 }
 
-extern class Popup extends Framework7.Fw7Destroyable {
+extern class Popup extends Framework7.Fw7Destroyable<PopupParams> {
 	public var backdropEl(default, never): js.html.Element;
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
-	public var params(default, never): PopupParams;
 
 	public function open(animate: Bool): Void;
 	public function close(animate: Bool): Void;
