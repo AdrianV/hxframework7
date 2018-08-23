@@ -31,8 +31,8 @@ typedef DialogParams = {
 }
 
 extern class DialogApp extends Framework7.Fw7ConstructorApp<DialogParams, Dialog> {
-	public function open(el: Dom7Container, animate: Bool): Dialog;
-	public function close(el: Dom7Container, animate: Bool): Dialog;
+	public function open(el: Dom7Container, ? animate: Bool): Dialog;
+	public function close(el: Dom7Container, ? animate: Bool): Dialog;
 	public function alert(text: String, ? title: String, ? callback: Void->Void): Dialog;
 	public function confirm(text: String, ? title: String, callbackOk: Void->Void, callbackCancel: Void->Void): Dialog;
 	public function prompt(text: String, ? title: String, callbackOk: Void->Void, callbackCancel: Void->Void): Dialog;
@@ -48,8 +48,8 @@ extern class Dialog extends Framework7.Fw7Destroyable<DialogParams> {
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
 
-	public function open(animate: Bool): Void;
-	public function close(animate: Bool): Void;
+	public function open(? animate: Bool): Void;
+	public function close(? animate: Bool): Void;
 	public function setProgress(progress: Float, duration: Float): Void;
 	public function setTitle(title: String): Void;
 	public function setText(text: String): Void;

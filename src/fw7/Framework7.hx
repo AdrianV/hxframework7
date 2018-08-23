@@ -87,6 +87,7 @@ typedef Fw7Params = {
 		? showOnPageScrollEnd: Bool,
 		? showOnPageScrollTop: Bool,
 	},
+	? view: View.ViewParams,
 }
 
 typedef ModalOptions = {

@@ -26,6 +26,6 @@ extern class NotificationApp extends Framework7.Fw7ConstructorApp<NotificationPa
 }
 
 extern class Notification extends Framework7.Fw7Destroyable<NotificationParams> {
-	public function open(? animate: Bool): Void;
-	public function close(? animate: Bool): Void;
+	public function open(? animate: Bool): Notification;
+	public function close(? animate: Bool): Notification;
 }
