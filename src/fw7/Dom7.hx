@@ -70,7 +70,7 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	/**
 		Remove (if class is present) or add (if not) one or more classes from each element in the set of matched elements:
 	**/
-	public inline function toggleClass(className: String, ? toggle: Bool): Dom7 return Dom7ExtImpl.toggleClass(this, className, toggle);
+	public inline function toggleClass(className: String, ? toggle: Bool): Dom7 return new Dom7ExtImpl(this).toggleClass(className, toggle);
 	
 	@:native("toggleClass")
 	public function _toggleClass(className: String): Dom7;
@@ -315,29 +315,36 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	}
 	
 	public inline function toggleButton(disabled: Bool, colorNormal: String, colorDisabled: String): Dom7	{
-		return Dom7ExtImpl.toggleButton(this, disabled, colorNormal, colorDisabled);
+		return new Dom7ExtImpl(this).toggleButton(disabled, colorNormal, colorDisabled);
 	}
 
 	public inline	function doWith(action: Dom7->Dom7): Dom7 return action(this);
 
 }
 
-@:native("d.m.x")
-private class Dom7ExtImpl {
+@:native("d_m_x")
+private abstract Dom7ExtImpl(Dom7) from Dom7 to Dom7 {
 	
-	static public function toggleButton(me: Dom7, disabled: Bool, colorNormal: String, colorDisabled: String): Dom7 {
+	public inline function new(d) this = d;
+
+	inline function addClass(cls: String): Dom7ExtImpl return if (cls > "") return this.addClass(cls) else this;
+	inline function removeClass(cls: String): Dom7ExtImpl return if (cls > "") return this.removeClass(cls) else this;
+
+	public function toggleButton(disabled: Bool, colorNormal: String, colorDisabled: String): Dom7ExtImpl {
+		var cold = colorDisabled != "" ? 'disabled color-$colorDisabled' : 'disabled';
+		var coln = colorNormal != "" ? 'color-$colorNormal' : '';
 		if ( !disabled ) {
-			me.removeClass('disabled color-$colorDisabled').addClass('color-$colorNormal');
+			removeClass(cold).addClass(coln);
 		} else {
-			me.removeClass('color-$colorNormal').addClass('disabled color-$colorDisabled');
+			removeClass(coln).addClass(cold);
 		}
-		return me;
+		return this;
 	}	
 	
-	static public function toggleClass(me: Dom7, className: String, ? toggle: Bool): Dom7 {
+	public function toggleClass(className: String, ? toggle: Bool): Dom7ExtImpl {
 		if (toggle != null) {
-			return if (toggle) me.addClass(className) else me.removeClass(className);
-		} else return me._toggleClass(className);
+			return if (toggle) addClass(className) else removeClass(className);
+		} else return this._toggleClass(className);
 	}
 
 }

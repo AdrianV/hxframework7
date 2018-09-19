@@ -22,7 +22,8 @@ abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 {
 	inline function new(p) this = p;
 		
-	static function formatValue(picker: fw7.Picker, values: Array<String>, displayValue: Array<String>): String {
+	static function formatValue(picker: TimePicker, values: Array<String>, displayValue: Array<String>): String {
+		//var picker: TimePicker = Syntax.code("this");
 		var params: TimePickerParams = cast picker.params;
 		var result = "";
 		if ( params.showDay ) {
@@ -71,7 +72,7 @@ abstract TimePicker(fw7.Picker) from fw7.Picker to fw7.Picker
 				displayValues: [for (m in 0 ... 60) m < 10 ? '0$m' : '$m'],
 			});
 		}
-		par.formatValue = formatValue;
+		par.formatValue = (p1, p2) -> formatValue(Syntax.code("this"), p1, p2);
 		if (par.timeValue != null) {
 			par.value = [];
 			if (par.showDay) {

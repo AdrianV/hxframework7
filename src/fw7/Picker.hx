@@ -17,7 +17,7 @@ typedef PickerParams = {
 	? updateValuesOnTouchmove: Bool,
 	? freeMode: Bool,
 	? value: Array<String>,
-	? formatValue: Picker->Array<String>->Array<String>->String,
+	? formatValue: Array<String>->Array<String>->String,
 	? cols: Array<ColumnParams<Picker>>,
 	? multiple: Bool,
 	
