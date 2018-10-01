@@ -76,6 +76,15 @@ typedef Fw7Params = {
 		? scrollTopOnTitleClick: Bool,
 		? iosCenterTitle: Bool,
 	},
+	? statusbar: {
+		? enabled: Bool,
+		? overlay: haxe.extern.EitherType<Bool, String>,
+		? iosBackgroundColor: String,
+		? materialBackgroundColor: String,
+		? scrollTopOnClick: Bool,
+		? iosOverlaysWebView: Bool,
+		? iosTextColor: String,
+	},
 	? swipeout: {
 		? noFollow: Bool,
 		? removeElements: Bool,
