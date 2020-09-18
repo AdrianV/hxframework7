@@ -14,6 +14,7 @@ typedef ToastParams =  {
 	? icon: String,
 	? text: String,
 	? position: ToastPosition,
+	? closeTimeout: Float,
 	? closeButton: Bool,
 	? closeButtonColor: String,
 	? closeButtonText: String,
@@ -24,12 +25,12 @@ typedef ToastParams =  {
 }
 
 extern class ToastApp extends Framework7.Fw7ConstructorApp<ToastParams, Toast> {
-	public function open(el: Dom7Container, animate: Bool): Actions;
-	public function close(el: Dom7Container, animate: Bool): Actions;
+	public function open(el: Dom7Container, animate: Bool): Toast;
+	public function close(el: Dom7Container, animate: Bool): Toast;
 }
 
 extern class Toast extends Framework7.Fw7Destroyable<ToastParams> {
-	public function open(? animate: Bool): Void;
-	public function close(? animate: Bool): Void;
+	public function open(? animate: Bool): Toast;
+	public function close(? animate: Bool): Toast;
 
 }

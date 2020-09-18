@@ -1,9 +1,5 @@
 package fw7;
 
-/**
- * ...
- * @author 
- */
 
 @:struct
 class Dom7Iterator 
@@ -21,9 +17,10 @@ class Dom7Iterator
 }
 
 typedef Dom7Container = haxe.extern.EitherType<Dom7, haxe.extern.EitherType<String, js.html.Element>>;
+typedef Callback = haxe.extern.EitherType<js.html.Event->Void, haxe.Constraints.Function>;
 
 private class X {
-	static public function replaceHandler(t: Dom7, event: String = "click", f: js.html.Event->Void): Dom7 return t.off(event, f).on(event, f); 	
+	static public function replaceHandler(t: Dom7, event: String = "click", f: Callback): Dom7 return t.off(event, f).on(event, f); 	
 }
 
 @:native("$$") 
@@ -137,35 +134,29 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 		Add event handler function to one or more events to the selected elements.
 		with delegatedTarget = Live/delegated event handler
 	**/
-	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
-	public function on(eventName: String, handler: js.html.Event->Void): Dom7;
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: Callback): Dom7 {})
+	public function on(eventName: String, handler: Callback): Dom7;
 
 	/**
 		Add event handler function to one or more events to the selected elements that will be executed only once
 		with delegatedTarget = Live/delegated event handler that will be executed only once
 	**/
-	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
-	public function once(eventName: String, handler: js.html.Event->Void): Dom7;
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: Callback): Dom7 {})
+	public function once(eventName: String, handler: Callback): Dom7;
 	
 	/**
 		Remove event handler
 		with delegatedTarget = Remove live/delegated event handler
 	**/
-	@:overload(function<T>(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function<T>(eventName: String, handler: js.html.Event->T->Void): Dom7 {})
-	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: js.html.Event->Void): Dom7 {})
-	public function off(eventName: String, handler: js.html.Event->Void): Dom7;
+	@:overload(function(eventName: String, delegatedTarget: Dom7Container, handler: Callback): Dom7 {})
+	public function off(eventName: String, handler: Callback): Dom7;
 	
-	inline function replaceHandler(event: String = "click", f: js.html.Event->Void): Dom7 { return X.replaceHandler(this, event, f); }
+	inline function replaceHandler(event: String = "click", f: Callback): Dom7 { return X.replaceHandler(this, event, f); }
 	
 	/**
 		Execute all handlers added to the matched elements for the specified event
 	**/
-	public function trigger(eventName: String, eventData: Dynamic): Dom7;
+	public function trigger(eventName: String, ? eventData: Dynamic): Dom7;
 	
 	/**
 		Adds prefixed transitionEnd event handler to collection
@@ -213,7 +204,8 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	@:overload(function(value:String): Dom7 {})
 	public function text(): String;
 	
-	public function is(selector: Dom7Container): Bool;
+	@:native("is")
+	public function isOf(selector: Dom7Container): Bool;
 	
 	public function index(): Int;
 	
@@ -245,73 +237,71 @@ extern class Dom7 implements ArrayAccess<js.html.Element>
 	public function remove(): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function click(handler: js.html.Event->Void): Dom7;
+	public function click(handler: Callback): Dom7;
 
 	@:overload(function(): Dom7 {})
-	public function blur(handler: js.html.Event->Void): Dom7;
+	public function blur(handler: Callback): Dom7;
 
 	@:overload(function(): Dom7 {})
-	public function focus(handler: js.html.Event->Void): Dom7;
+	public function focus(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function focusin(handler: js.html.Event->Void): Dom7;
+	public function focusin(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function focusout(handler: js.html.Event->Void): Dom7;
+	public function focusout(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function keyup(handler: js.html.Event->Void): Dom7;
+	public function keyup(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function keydown(handler: js.html.Event->Void): Dom7;
+	public function keydown(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function keypress(handler: js.html.Event->Void): Dom7;
+	public function keypress(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function submit(handler: js.html.Event->Void): Dom7;
+	public function submit(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function change(handler: js.html.Event->Void): Dom7;
+	public function change(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mousedown(handler: js.html.Event->Void): Dom7;
+	public function mousedown(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mousemove(handler: js.html.Event->Void): Dom7;
+	public function mousemove(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mouseup(handler: js.html.Event->Void): Dom7;
+	public function mouseup(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mouseenter(handler: js.html.Event->Void): Dom7;
+	public function mouseenter(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mouseleave(handler: js.html.Event->Void): Dom7;
+	public function mouseleave(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mouseout(handler: js.html.Event->Void): Dom7;
+	public function mouseout(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function mouseover(handler: js.html.Event->Void): Dom7;
+	public function mouseover(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function touchstart(handler: js.html.Event->Void): Dom7;
+	public function touchstart(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function touchend(handler: js.html.Event->Void): Dom7;
+	public function touchend(handler: Callback): Dom7;
 	
 	@:overload(function(): Dom7 {})
-	public function touchmove(handler: js.html.Event->Void): Dom7;
+	public function touchmove(handler: Callback): Dom7;
 	
-	public function resize(handler: js.html.Event->Void): Dom7;
+	public function resize(handler: Callback): Dom7;
 	
-	public function scroll(handler: js.html.Event->Void): Dom7;
+	public function scroll(handler: Callback): Dom7;
 
 	static function __init__(): Void {
-		untyped {
-			__js__("var $$ = Dom7");
-		}
+		js.Syntax.code("var $$ = Dom7");
 	}
 	
 	public inline function toggleButton(disabled: Bool, colorNormal: String, colorDisabled: String): Dom7	{

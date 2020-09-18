@@ -37,8 +37,8 @@ typedef ActionsParams = {
 
 }
 extern class ActionsApp extends Framework7.Fw7ConstructorApp<ActionsParams, Actions> {
-	public function open(el: Dom7Container, animate: Bool): Actions;
-	public function close(el: Dom7Container, animate: Bool): Actions;
+	public function open(el: Dom7Container, ?animate: Bool): Actions;
+	public function close(el: Dom7Container, ?animate: Bool): Actions;
 }
 
 extern class Actions extends Framework7.Fw7Destroyable<ActionsParams> {
@@ -46,8 +46,8 @@ extern class Actions extends Framework7.Fw7Destroyable<ActionsParams> {
 	@:native("$backdropEl")
 	public var dom7BackdropEl(default, never): Dom7;
 
-	public function open(animate: Bool): Void;
-	public function close(animate: Bool): Void;
+	public function open(?animate: Bool): Void;
+	public function close(?animate: Bool): Void;
 
 	
 }

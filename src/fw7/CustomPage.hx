@@ -9,16 +9,24 @@ typedef MainApp = {
 	var mainView(get, null): fw7.View;
 }
 
+@:nullSafety
 @page("") 
 class CustomPage<T: MainApp>
 {
 
-	var _app: T;
-	var _myApp: fw7.Framework7;
+	final _app: T;
+	final _myApp: fw7.Framework7;
 	var _isInitialized = false;
-	var _page: fw7.Page;
+
+	public var app(get, never): T;
+		inline function get_app() return _app;
+
+	@:nullSafety(Off) var _page: fw7.Page;
 	public var pageName(get, never): String;
-		inline function get_pageName() return haxe.rtti.Meta.getType(Type.getClass(this)).page[0];
+		inline function get_pageName() {
+			final result = haxe.rtti.Meta.getType(@:nullSafety(Off) Type.getClass(this)).page[0];
+			return result != null ? result : "";
+		}
 	public var pageSelector(get, never): String;
 		inline function get_pageSelector() return '.page[data-name="$pageName"]';
 
@@ -27,13 +35,14 @@ class CustomPage<T: MainApp>
 	{
 		_app = app;
 		_myApp = app.myApp;
-		D(Browser.document).on(page_init, pageSelector, (_, p) -> onInit(p));
-		D(Browser.document).on(page_beforein, pageSelector, (_, p) -> run(p));
+		final self = @:nullSafety(Off) this;
+		D(Browser.document).on(page_init, self.pageSelector, (_, p) -> self.onInit(p));
+		D(Browser.document).on(page_beforein, self.pageSelector, (_, p) -> self.run(p));
 		//_myApp.onPageInit(pageName, onInit);
 		//_myApp.onPageBeforeAnimation(pageName, run);
 	}
 	
-	public function onInit(p) {
+	public function onInit(p: fw7.Page) {
 		_page = p;
 		if ( !_isInitialized ) initOnce(p);
 		init(p);
